@@ -6,7 +6,7 @@ public class Game {
 
     private int tilesCount;
 
-    private List<DominoTile> bestSequence = new ArrayList<>();
+    private List<DominoTile> longestSequence = new ArrayList<>();
     private DominoSequence currentSequence;
     private List<DominoTile> randomItems;
 
@@ -88,9 +88,9 @@ public class Game {
 
 
     private void checkResultAndStoreIfNecessary() {
-        if (currentSequence.size() > bestSequence.size()) {
-            bestSequence.clear();
-            bestSequence.addAll(currentSequence.getTiles());
+        if (currentSequence.size() > longestSequence.size()) {
+            longestSequence.clear();
+            longestSequence.addAll(currentSequence.getTiles());
         }
         currentSequence.clear();
     }
@@ -139,10 +139,10 @@ public class Game {
 
     private void printLongestSequence() {
         System.out.println("The longest sequence: ");
-        final int size = bestSequence.size();
+        final int size = longestSequence.size();
         for (int i = 0; i < size - 1; i++) {
-            DominoTile thisTile = bestSequence.get(i);
-            DominoTile nextTile = bestSequence.get(i + 1);
+            DominoTile thisTile = longestSequence.get(i);
+            DominoTile nextTile = longestSequence.get(i + 1);
             if (thisTile.getRight() == nextTile.getLeft()) {
                 System.out.print(thisTile);
                 continue;
@@ -154,7 +154,7 @@ public class Game {
             }
             System.out.print(thisTile);
         }
-        System.out.print(bestSequence.get(size - 1));
+        System.out.print(longestSequence.get(size - 1));
         System.out.println('\n');
     }
 
