@@ -18,14 +18,13 @@ public class Game {
         List<DominoTile> dominoTiles = createDominoTiles();
 
         randomItems = getRandomItems(dominoTiles);
-//        randomItems = getMockItems();
 
         System.out.println("Initial tiles: ");
         printSequence(randomItems);
 
         findLongestPossibleSequence(randomItems);
 
-        printResult();
+        printLongestSequence();
     }
 
     private void findLongestPossibleSequence(List<DominoTile> dominoTiles) {
@@ -133,20 +132,30 @@ public class Game {
         return new ArrayList<>(dominoTiles);
     }
 
-    private void printResult() {
-        System.out.println("Possible sequences starting from the longest: ");
-        printSequence(bestSequence);
-    }
-
     private void printSequence(List<DominoTile> randomItems) {
         randomItems.forEach(System.out::print);
         System.out.println();
     }
 
-    private List<DominoTile> getMockItems() {
-        List<DominoTile> tiles = Arrays.asList(new DominoTile(0, 1), new DominoTile(3, 6), new DominoTile(3, 5),
-                new DominoTile(0, 3), new DominoTile(0, 5), new DominoTile(5, 5));
-        return new ArrayList<>(tiles);
+    private void printLongestSequence() {
+        System.out.println("The longest sequence: ");
+        final int size = bestSequence.size();
+        for (int i = 0; i < size - 1; i++) {
+            DominoTile thisTile = bestSequence.get(i);
+            DominoTile nextTile = bestSequence.get(i + 1);
+            if (thisTile.getRight() == nextTile.getLeft()) {
+                System.out.print(thisTile);
+                continue;
+            } else if (thisTile.getRight() == nextTile.getRight()) {
+                nextTile.flip();
+            } else if (thisTile.getLeft() == nextTile.getRight()) {
+                thisTile.flip();
+                nextTile.flip();
+            }
+            System.out.print(thisTile);
+        }
+        System.out.print(bestSequence.get(size - 1));
+        System.out.println('\n');
     }
 
 }
