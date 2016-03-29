@@ -7,7 +7,7 @@ public class Game {
     private int tilesCount;
 
     private List<DominoTile> bestSequence = new ArrayList<>();
-    private LinkedList<DominoTile> currentSequence;
+    private DominoSequence currentSequence;
     private List<DominoTile> randomItems;
 
     public Game(int tilesCount) {
@@ -35,7 +35,7 @@ public class Game {
             dominoTile.setUsed(true);
             initCurrentSequence(dominoTile);
 
-            putNext(dominoTile.getLeft(), dominoTile.getRight());
+            putNext(currentSequence);
 
             checkResultAndStoreIfNecessary();
 
@@ -43,43 +43,39 @@ public class Game {
         }
     }
 
-    private void putNext(int left, int right) {
+    private void putNext(DominoSequence sequence) {
 
         for (DominoTile tile : randomItems) {
             if (tile.notUsed()) {
                 tile.setUsed(true);
 
-                if (left == tile.getLeft()) {
+                if (sequence.getLeft() == tile.getLeft()) {
                     if (!currentSequence.contains(tile)) {
                         currentSequence.addFirst(tile);
                     }
-                    int _left = tile.getRight();
-                    int _right = right;
-                    putNext(_left, _right);
+                    currentSequence.setLeft(tile.getRight());
+                    putNext(currentSequence);
                 }
-                else if (right == tile.getLeft()) {
+                else if (sequence.getRight() == tile.getLeft()) {
                     if (!currentSequence.contains(tile)) {
                         currentSequence.add(tile);
                     }
-                    int _right = tile.getRight();
-                    int _left = left;
-                    putNext(_left, _right);
+                    currentSequence.setRight(tile.getRight());
+                    putNext(currentSequence);
                 }
-                else if (left == tile.getRight()) {
+                else if (sequence.getLeft() == tile.getRight()) {
                     if (!currentSequence.contains(tile)) {
                         currentSequence.addFirst(tile);
                     }
-                    int _left = tile.getLeft();
-                    int _right = right;
-                    putNext(_left, _right);
+                    currentSequence.setLeft(tile.getLeft());
+                    putNext(currentSequence);
                 }
-                else if (right == tile.getRight()) {
+                else if (sequence.getRight() == tile.getRight()) {
                     if (!currentSequence.contains(tile)) {
                         currentSequence.add(tile);
                     }
-                    int _right = tile.getLeft();
-                    int _left = left;
-                    putNext(_left, _right);
+                    currentSequence.setRight(tile.getLeft());
+                    putNext(currentSequence);
                 }
 
                 if (!currentSequence.contains(tile)) {
@@ -95,13 +91,13 @@ public class Game {
     private void checkResultAndStoreIfNecessary() {
         if (currentSequence.size() > bestSequence.size()) {
             bestSequence.clear();
-            bestSequence.addAll(currentSequence);
+            bestSequence.addAll(currentSequence.getTiles());
         }
         currentSequence.clear();
     }
 
     private void initCurrentSequence(DominoTile dominoTile) {
-        if (currentSequence == null) currentSequence = new LinkedList<>();
+        if (currentSequence == null) currentSequence = new DominoSequence();
         currentSequence.add(dominoTile);
     }
 

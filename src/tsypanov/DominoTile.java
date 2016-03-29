@@ -57,6 +57,6 @@ public class DominoTile {
 
 	@Override
 	public String toString() {
-		return "[" + left + ' ' + right + ' ' + used + ']';
+		return "[" + left + ' ' + right /*+ ' ' + used*/ + ']';
 	}
 }
