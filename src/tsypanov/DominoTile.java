@@ -18,10 +18,6 @@ public class DominoTile {
 		return right;
 	}
 
-	public boolean isUsed() {
-		return used;
-	}
-
 	public void setUsed(boolean used) {
 		this.used = used;
 	}
@@ -43,8 +39,7 @@ public class DominoTile {
 
 		DominoTile that = (DominoTile) o;
 
-		if (left != that.left) return false;
-		return right == that.right;
+		return left == that.left && right == that.right;
 
 	}
 
@@ -57,6 +52,6 @@ public class DominoTile {
 
 	@Override
 	public String toString() {
-		return "[" + left + ' ' + right /*+ ' ' + used*/ + ']';
+		return "[" + left + ' ' + right + ']';
 	}
 }
