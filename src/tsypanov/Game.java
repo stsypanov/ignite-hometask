@@ -35,7 +35,7 @@ public class Game {
             dominoTile.setUsed(true);
             initCurrentSequence(dominoTile);
 
-            putNext(currentSequence);
+            putNext();
 
             checkResultAndStoreIfNecessary();
 
@@ -43,39 +43,39 @@ public class Game {
         }
     }
 
-    private void putNext(DominoSequence sequence) {
+    private void putNext() {
 
         for (DominoTile tile : randomItems) {
             if (tile.notUsed()) {
                 tile.setUsed(true);
 
-                if (sequence.getLeft() == tile.getLeft()) {
+                if (currentSequence.getLeft() == tile.getLeft()) {
                     if (!currentSequence.contains(tile)) {
                         currentSequence.addFirst(tile);
                     }
                     currentSequence.setLeft(tile.getRight());
-                    putNext(currentSequence);
+                    putNext();
                 }
-                else if (sequence.getRight() == tile.getLeft()) {
+                else if (currentSequence.getRight() == tile.getLeft()) {
                     if (!currentSequence.contains(tile)) {
                         currentSequence.add(tile);
                     }
                     currentSequence.setRight(tile.getRight());
-                    putNext(currentSequence);
+                    putNext();
                 }
-                else if (sequence.getLeft() == tile.getRight()) {
+                else if (currentSequence.getLeft() == tile.getRight()) {
                     if (!currentSequence.contains(tile)) {
                         currentSequence.addFirst(tile);
                     }
                     currentSequence.setLeft(tile.getLeft());
-                    putNext(currentSequence);
+                    putNext();
                 }
-                else if (sequence.getRight() == tile.getRight()) {
+                else if (currentSequence.getRight() == tile.getRight()) {
                     if (!currentSequence.contains(tile)) {
                         currentSequence.add(tile);
                     }
                     currentSequence.setRight(tile.getLeft());
-                    putNext(currentSequence);
+                    putNext();
                 }
 
                 if (!currentSequence.contains(tile)) {
